@@ -17,9 +17,6 @@ EnemyTank::EnemyTank(Field * field, int x, int y,  CursorController * cursorCont
     field_->level_[tankInfo_.y][tankInfo_.x]='q';
     field_->drawField(tankInfo_.x+field_->getFieldInfo().x, tankInfo_.y+field_->getFieldInfo().y, "q");
     }
-    //field_->setMaxEnemies(1);
-    //field_->setEnemiesCount(1);
-    //field_->drawEnemiesKilled();
 }
 
 EnemyTank::~EnemyTank()
@@ -27,14 +24,6 @@ EnemyTank::~EnemyTank()
     //dtor
 }
 
-/*void EnemyTank::moveForward(){
-
-}*/
-
-/*void EnemyTank::shoot()
-{
-
-}*/
 
 bool EnemyTank::isAlive()
 {
@@ -49,7 +38,3 @@ int EnemyTank::checkClosest(){
     int i;
     return i;
 }
-//}
-/*void EnemyTank::rotateInDirection(Direction direction){
-
-}*/

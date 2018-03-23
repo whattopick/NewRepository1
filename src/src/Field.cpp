@@ -166,8 +166,6 @@ void Field::generateLevel()
     {
         goldCoordinates_.x= (rand()%(fieldInfo_.width-2)+1);
         goldCoordinates_.y= (rand()%(fieldInfo_.height-2)+1);
-        //goldCoordinates_.x= 9;
-        //goldCoordinates_.y= 9;
     }
     while( (goldCoordinates_.x==fieldInfo_.width/2 || goldCoordinates_.x==fieldInfo_.width/2 + 1 || goldCoordinates_.x==fieldInfo_.width/2 -1) || (goldCoordinates_.x==fieldInfo_.height-2 || goldCoordinates_.y==fieldInfo_.height-1 || goldCoordinates_.x==fieldInfo_.height-3));
     level_[getGoldCoordinates().y][getGoldCoordinates().x]='Y';
@@ -213,10 +211,6 @@ void Field::generateLevel()
         Sleep(100);
         if(i%3==0)
         {
-            /*while(cursorController_->isFree_==false);
-            cursorController_->isFree_=false;
-            cursorController_->drawAtPlace(21+i/3, 1, ".");
-            cursorController_->isFree_=true;*/
             drawField(21+i/3, 1, ".");
         }
     }

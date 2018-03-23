@@ -1,6 +1,5 @@
 #ifndef GAMETIMER_H
 #define GAMETIMER_H
-//#include "UserInterface.h"
 #include "CursorController.h"
 
 class UserInterface;
@@ -8,7 +7,6 @@ class UserInterface;
 class GameTimer
 {
     public:
-        //GameTimer(UserInterface*);
         GameTimer(CursorController*);
         virtual ~GameTimer();
         void setSeconds(int);
@@ -21,7 +19,6 @@ class GameTimer
     public:
         void tick();
     private:
-        //UserInterface* userInterface_;
         CursorController * cursorController_;
         void drawTime(int);
 };

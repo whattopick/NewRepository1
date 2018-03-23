@@ -1,6 +1,5 @@
 #ifndef FIELD_H
 #define FIELD_H
-//#include "UserInterface.h"
 #include "CursorController.h"
 #include <string>
 
@@ -20,7 +19,6 @@ struct FieldInfo{
 class Field
 {
     public:
-        //Field(int, int, UserInterface *);
         Field(int, int, CursorController *);
         virtual ~Field();
 
@@ -50,8 +48,6 @@ class Field
         GoldCoordinates goldCoordinates_;
         CursorController * cursorController_;
         void generateLevel();
-
-
 
 };
 

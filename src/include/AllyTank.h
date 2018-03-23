@@ -13,7 +13,6 @@ class AllyTank : public AbstractTank
         AllyTank(Field*, CursorController *);
         virtual ~AllyTank();
         void controlTank();
-        //void shoot();
 
 
     protected:

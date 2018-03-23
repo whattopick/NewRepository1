@@ -20,7 +20,6 @@ public:
     void moveForward();
     void shoot();
     void rotateInDirection(Direction);
-    //void setDirection(Direction);
     Direction getDirection();
     Field * field_;
     CursorController * cursorController_;

@@ -75,8 +75,4 @@ void AllyTank::setHealthPoints(int hp)
     healthPoints_=hp;
 }
 
-/*void AllyTank::shoot()
-{
-    Bullet * bullet = new Bullet(field_, tankInfo_);
-}*/
 

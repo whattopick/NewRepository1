@@ -38,6 +38,10 @@ void AbstractTank::moveForward()
         x=1;
     }
     break;
+    case NONE: default:{
+        printf("Something went wrong...");
+    }
+    break;
     }
     if(field_->isEmpty(tankInfo_.x+x, tankInfo_.y+y))
     {
@@ -57,10 +61,6 @@ void AbstractTank::rotateInDirection(Direction direction)
     tankInfo_.direction=direction;
 }
 
-/*void AbstractTank::setDirection(Direction direction)
-{
-    tankInfo_.direction=direction;
-}*/
 
 Direction AbstractTank::getDirection()
 {
