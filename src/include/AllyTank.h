@@ -13,6 +13,7 @@ class AllyTank : public AbstractTank
         AllyTank(Field*, CursorController *);
         virtual ~AllyTank();
         void controlTank();
+        //void shoot();
 
 
     protected:
@@ -21,7 +22,6 @@ class AllyTank : public AbstractTank
         int healthPoints_=3;
         int getHealthPoints();
         void setHealthPoints(int);
-        void shoot();
 };
 
 #endif // ALLYTANK_H

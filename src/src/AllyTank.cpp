@@ -3,17 +3,20 @@
 #include "CursorController.h"
 #include <windows.h>
 #include <conio.h>
+#include <stdio.h>
 
 AllyTank::AllyTank(Field * field, CursorController * cursorController)
 {
     //ctor
     field_=field;
-    cursorController_=cursorController;
+    myBullet_=1;
+    cursorController_= cursorController;
     tankInfo_.direction=UP;
     tankInfo_.x=field_->getFieldInfo().width/2;
     tankInfo_.y=field_->getFieldInfo().height-2;
     field_->level_[tankInfo_.y][tankInfo_.x]='o';
     field_->drawField(tankInfo_.x+field_->getFieldInfo().x, tankInfo_.y+field_->getFieldInfo().y, "o");
+    field_->drawHealthPoints(getHealthPoints());
 }
 
 AllyTank::~AllyTank()
@@ -54,10 +57,10 @@ void AllyTank::controlTank()
                 moveForward();
             }
         }
-        /*if (c==32)
+        if (c==32)
         {
-            allyBullet_->shoot(tankCoordinates_[0], tankCoordinates_[1], currentDirection_);
-        }*/
+            shoot();
+        }
     }
 
 }
@@ -72,9 +75,8 @@ void AllyTank::setHealthPoints(int hp)
     healthPoints_=hp;
 }
 
-void AllyTank::shoot()
+/*void AllyTank::shoot()
 {
     Bullet * bullet = new Bullet(field_, tankInfo_);
-    bullet->moveForward();
-}
+}*/
 

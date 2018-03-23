@@ -8,10 +8,10 @@ class CursorController
     public:
         CursorController();
         virtual ~CursorController();
-        void drawAtPlace(int, int, char);
         void drawAtPlace(int, int, std::string);
         void drawAtPlace(int, int, int);
         void hideCursor();
+        bool isFree_;
 
 
     protected:

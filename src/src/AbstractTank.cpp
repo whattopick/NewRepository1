@@ -1,5 +1,6 @@
 #include "AbstractTank.h"
 #include <string>
+#include "Bullet.h"
 
 AbstractTank::AbstractTank()
 {
@@ -61,7 +62,12 @@ void AbstractTank::rotateInDirection(Direction direction)
     tankInfo_.direction=direction;
 }*/
 
-AbstractTank::Direction AbstractTank::getDirection()
+Direction AbstractTank::getDirection()
 {
     return tankInfo_.direction;
+}
+
+void AbstractTank::shoot()
+{
+    Bullet * bullet = new Bullet(field_, tankInfo_, myBullet_);
 }

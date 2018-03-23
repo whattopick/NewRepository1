@@ -3,20 +3,22 @@
 #include "AbstractTank.h"
 #include "Field.h"
 #include "AllyTank.h"
+#include "CursorController.h"
 
 
 class EnemyTank : public AbstractTank
 {
     public:
-        EnemyTank(Field *, AllyTank *);
+        EnemyTank(Field *, int, int, CursorController *, AllyTank *);
         virtual ~EnemyTank();
+        void doHisJob();
 
     protected:
 
     private:
-        CoordinatesDirection tankInfo_;
         AllyTank * allyTank_;
-        void shoot();
+        bool isAlive();
+        int checkClosest();
 };
 
 #endif // ENEMYTANK_H

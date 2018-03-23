@@ -8,11 +8,11 @@
 Field::Field(int width, int height, CursorController * cursorController)
 {
     //ctor
-    if (width>fieldInfo_.width && width<301)
+    if (width>fieldInfo_.width && width<=210)
     {
         fieldInfo_.width=width;
     }
-    if (width>fieldInfo_.height && height<156)
+    if (width>fieldInfo_.height && height<=60)
     {
         fieldInfo_.height=height;
     }
@@ -34,6 +34,14 @@ Field::~Field()
     //dtor
 }
 
+void Field::setEnemiesCount(int enemiesCount){
+    enemiesCount_=enemiesCount;
+}
+
+void Field::setMaxEnemies(int enemiesCount){
+    maxEnemies_=enemiesCount;
+}
+
 bool Field::isEmpty(int x, int y)
 {
     if (level_[y][x]==' ')
@@ -47,7 +55,7 @@ bool Field::isEmpty(int x, int y)
 
 bool Field::isWall(int x, int y)
 {
-    if (level_[y][x]=='-' || level_[y][x]=='|')
+    if (level_[y][x]=='-' || level_[y][x]=='|' || level_[y][x]==':' || level_[y][x]=='`')
     {
         return true;
     }
@@ -71,12 +79,12 @@ int Field::getMaxEnemies()
     return maxEnemies_;
 }
 
-Field::FieldInfo Field::getFieldInfo()
+FieldInfo Field::getFieldInfo()
 {
     return fieldInfo_;
 }
 
-Field::GoldCoordinates Field::getGoldCoordinates()
+GoldCoordinates Field::getGoldCoordinates()
 {
     return goldCoordinates_;
 
@@ -84,14 +92,48 @@ Field::GoldCoordinates Field::getGoldCoordinates()
 
 void Field::drawField(int x, int y, std::string s)
 {
+    while(cursorController_->isFree_==false);
+    cursorController_->isFree_=false;
     cursorController_->drawAtPlace(x, y, s);
+    cursorController_->isFree_=true;
 }
 
-void Field::drawEnemiesKilled(int enemiesKilled)
+void Field::drawEnemiesKilled()
 {
+    while(cursorController_->isFree_==false);
+    cursorController_->isFree_=false;
     cursorController_->drawAtPlace(59, 2, "Enemies killed: ");
-    cursorController_->drawAtPlace(77, 2, enemiesKilled);
+    cursorController_->drawAtPlace(77, 2, maxEnemies_-enemiesCount_);
+    cursorController_->isFree_=true;
+}
 
+void Field::drawHealthPoints(int healthPoints)
+{
+    cursorController_->drawAtPlace(30, 2, "Lives left: ");
+    for(int i=0; i<healthPoints; i++)
+    {
+        while(cursorController_->isFree_==false);
+    cursorController_->isFree_=false;
+        cursorController_->drawAtPlace(43 + i*4, 2, "(o)");
+        cursorController_->isFree_=true;
+    }
+
+}
+
+void Field::drawEndGame(int result){
+    while(cursorController_->isFree_==false);
+    cursorController_->isFree_=false;
+    for (int i=fieldInfo_.y; i<fieldInfo_.y+fieldInfo_.height; i++)
+    {
+        if(result==0){
+        cursorController_->drawAtPlace(0, i, "DEFEAT...");
+        }
+        else{
+        cursorController_->drawAtPlace(0, i, "VICTORY!!");
+        }
+        Sleep(20);
+    }
+        exit(0);
 }
 
 void Field::generateLevel()
@@ -124,6 +166,8 @@ void Field::generateLevel()
     {
         goldCoordinates_.x= (rand()%(fieldInfo_.width-2)+1);
         goldCoordinates_.y= (rand()%(fieldInfo_.height-2)+1);
+        //goldCoordinates_.x= 9;
+        //goldCoordinates_.y= 9;
     }
     while( (goldCoordinates_.x==fieldInfo_.width/2 || goldCoordinates_.x==fieldInfo_.width/2 + 1 || goldCoordinates_.x==fieldInfo_.width/2 -1) || (goldCoordinates_.x==fieldInfo_.height-2 || goldCoordinates_.y==fieldInfo_.height-1 || goldCoordinates_.x==fieldInfo_.height-3));
     level_[getGoldCoordinates().y][getGoldCoordinates().x]='Y';
@@ -167,9 +211,27 @@ void Field::generateLevel()
             }
         }
         Sleep(100);
-        if(i%3==0){
-        cursorController_->drawAtPlace(21+i/3, 1, ".");}
+        if(i%3==0)
+        {
+            /*while(cursorController_->isFree_==false);
+            cursorController_->isFree_=false;
+            cursorController_->drawAtPlace(21+i/3, 1, ".");
+            cursorController_->isFree_=true;*/
+            drawField(21+i/3, 1, ".");
+        }
     }
+    maxEnemies_=(fieldInfo_.width * fieldInfo_.height)/200;
+    enemiesCount_=maxEnemies_;
+    drawEnemiesKilled();
     level_[fieldInfo_.height-2][fieldInfo_.width/2]=' ';
 
+}
+
+bool Field::isStash(int x, int y){
+    if ( (x==getGoldCoordinates().x && y==getGoldCoordinates().y) || (x==getGoldCoordinates().x-1 && y==getGoldCoordinates().y) || (x==getGoldCoordinates().x+1 && y==getGoldCoordinates().y) || (x==getGoldCoordinates().x && y==getGoldCoordinates().y+1) || (x==getGoldCoordinates().x && y==getGoldCoordinates().y-1) ){
+            return true;
+    }
+    else{
+        return false;
+    }
 }
