@@ -13,12 +13,12 @@ class AllyTank : public AbstractTank
         AllyTank(Field*, CursorController *);
         virtual ~AllyTank();
         void controlTank();
-
+        static int healthPoints_;
 
     protected:
 
     private:
-        int healthPoints_=3;
+
         int getHealthPoints();
         void setHealthPoints(int);
 };

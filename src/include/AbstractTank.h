@@ -15,6 +15,8 @@ class AbstractTank
 {
 public:
     AbstractTank();
+
+    static bool canShoot_;
     virtual ~AbstractTank() = 0;
     CoordinatesDirection tankInfo_;
     void moveForward();
@@ -24,6 +26,7 @@ public:
     Field * field_;
     CursorController * cursorController_;
     int myBullet_;
+    static const int step_;
 
 protected:
 

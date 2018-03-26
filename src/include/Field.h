@@ -6,10 +6,10 @@
 class UserInterface;
 
 struct FieldInfo{
-            int x = 0;
-            int y = 3;
-            int width = 20;
-            int height = 10;
+            int x;
+            int y;
+            int width;
+            int height;
         };
         struct GoldCoordinates{
         int x;
@@ -23,6 +23,7 @@ class Field
         virtual ~Field();
 
         char ** level_;
+        char ** nlevel_;
 
         bool isStash(int, int);
         bool isEmpty(int, int);
@@ -31,13 +32,15 @@ class Field
         char checkWallState(int, int);
         int getEnemiesCount();
         void setEnemiesCount(int);
-        void setMaxEnemies(int);
-        int getMaxEnemies();
         GoldCoordinates getGoldCoordinates();
         void drawField(int, int, std::string);
-        void drawEnemiesKilled();
-        void drawHealthPoints(int);
+        void drawField(int, int, int);
         void drawEndGame(int);
+        void drawHelp();
+        void testDraw();
+        char * gameStatsTime_;
+        char * gameStatsKills_;
+        char * gameStatsLeft_;
 
     protected:
 
@@ -48,6 +51,13 @@ class Field
         GoldCoordinates goldCoordinates_;
         CursorController * cursorController_;
         void generateLevel();
+
+        const int maxHeight_ = 60;
+        const int maxWidth_ = 210;
+        const int minHeight_ = 20;
+        const int minWidth_ = 10;
+        const int leftUpperCornerX_ = 0;
+        const int leftUpperCornerY_ = 3;
 
 };
 

@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <conio.h>
 #include <stdio.h>
+#include <thread>
+#include "EnemyTank.h"
 
 AllyTank::AllyTank(Field * field, CursorController * cursorController)
 {
@@ -15,8 +17,6 @@ AllyTank::AllyTank(Field * field, CursorController * cursorController)
     tankInfo_.x=field_->getFieldInfo().width/2;
     tankInfo_.y=field_->getFieldInfo().height-2;
     field_->level_[tankInfo_.y][tankInfo_.x]='o';
-    field_->drawField(tankInfo_.x+field_->getFieldInfo().x, tankInfo_.y+field_->getFieldInfo().y, "o");
-    field_->drawHealthPoints(getHealthPoints());
 }
 
 AllyTank::~AllyTank()
@@ -37,30 +37,53 @@ void AllyTank::controlTank()
 
             if(c==72)
             {
+                if(tankInfo_.direction!=UP){
                 rotateInDirection(UP);
-                moveForward();
+                }
+                else{
+                    moveForward();
+                }
             }
             if(c==80)
             {
+                if(tankInfo_.direction!=DOWN){
                 rotateInDirection(DOWN);
-                moveForward();
+                }
+                else{
+                    moveForward();
+                }
             }
             if(c==75)
             {
-                rotateInDirection(LEFT);
-                moveForward();
+                if(tankInfo_.direction!=LEFT){
+                    rotateInDirection(LEFT);
+                }
+                else{
+                    moveForward();
+                }
             }
 
             if(c==77)
             {
-                rotateInDirection(RIGHT);
-                moveForward();
+                if(tankInfo_.direction!=RIGHT){
+                    rotateInDirection(RIGHT);
+                }
+                else{
+                    moveForward();
+                }
             }
         }
-        if (c==32)
+        else if (c==32)
         {
-            shoot();
+            if(canShoot_){
+            canShoot_=false;
+            std::thread t3([this]{shoot();});
+            Sleep(100);
+            canShoot_=true;
+            t3.detach();
+            }
         }
+        Sleep(Bullet::speed_+10);
     }
 
 }
@@ -74,5 +97,8 @@ void AllyTank::setHealthPoints(int hp)
 {
     healthPoints_=hp;
 }
+
+int AllyTank::healthPoints_=3;
+
 
 

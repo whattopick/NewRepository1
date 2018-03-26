@@ -11,16 +11,15 @@ class GameTimer
         virtual ~GameTimer();
         void setSeconds(int);
         int getSeconds();
+        static int seconds_;
 
     protected:
 
     private:
-        int seconds_ = 0;
     public:
         void tick();
     private:
         CursorController * cursorController_;
-        void drawTime(int);
 };
 
 #endif // GAMETIMER_H

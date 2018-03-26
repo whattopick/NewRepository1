@@ -12,13 +12,14 @@ class EnemyTank : public AbstractTank
         EnemyTank(Field *, int, int, CursorController *, AllyTank *);
         virtual ~EnemyTank();
         void doHisJob();
+        void startIt();
 
     protected:
 
     private:
         AllyTank * allyTank_;
         bool isAlive();
-        int checkClosest();
+        Direction checkClosest(GoldCoordinates, CoordinatesDirection);
 };
 
 #endif // ENEMYTANK_H

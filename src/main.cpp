@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdio.h>
 #include "CursorController.h"
-#include "UserInterface.h"
 #include "GameTimer.h"
 #include "Field.h"
 #include "AllyTank.h"
@@ -27,30 +26,29 @@ int main()
     scanf("%d", &height);
     CursorController * cursorController = new CursorController();
     cursorController->hideCursor();
-    while(cursorController->isFree_==false);
-    cursorController->isFree_=false;
-    cursorController->drawAtPlace(0, 0, "------------------------------------------------------------- CRAZY TANKS -------------------------------------------------------------------");
-    cursorController->drawAtPlace(0, 1, "                                          ");
-    cursorController->drawAtPlace(0, 1, "Loading, please wait");
-    cursorController->isFree_=true;
     Field * field = new Field(width, height, cursorController);
-    while(cursorController->isFree_==false);
-    cursorController->isFree_=false;
-    cursorController->drawAtPlace(0, 1, "                                          ");
-    cursorController->isFree_=true;
+    GameTimer * timer = new GameTimer(cursorController);
+    std::thread t1([timer]{timer->tick();});
     AllyTank * allyTank = new AllyTank(field, cursorController);
     EnemyTank * enemyTanks[field->getEnemiesCount()];
     srand(time(NULL));
     for (int i=0; i<field->getEnemiesCount(); i++){
-    EnemyTank * enemyTank = new EnemyTank(field, rand()%(field->getFieldInfo().width-3)+1,rand()%(field->getFieldInfo().height-3)+1, cursorController, allyTank);
+    EnemyTank * enemyTank = new EnemyTank(field, rand()%(field->getFieldInfo().width-5)+1,rand()%(field->getFieldInfo().height-5)+1, cursorController, allyTank);
     enemyTanks[i]=enemyTank;
     }
-    GameTimer * timer = new GameTimer(cursorController);
-    std::thread t1([timer]{timer->tick();});
+    for (int i=0; i<field->getEnemiesCount(); i++){
+    enemyTanks[i]->startIt();
+    }
+    std::thread t8([field]{while(true) {Sleep(15); field->testDraw();} });
     std::thread t2([allyTank]{allyTank->controlTank();});
+    t8.join();
     t1.join();
-    delete timer;
+    t2.join();
+    for (int i=0; i<field->getEnemiesCount(); i++){
+    delete enemyTanks[i];
+    }
     delete allyTank;
+    delete timer;
     delete field;
     delete cursorController;
     return 0;

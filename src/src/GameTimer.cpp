@@ -2,6 +2,8 @@
 #include <windows.h>
 #include <stdlib.h>
 #include "CursorController.h"
+#include <thread>
+//#include "Field.h"
 
 GameTimer::GameTimer(CursorController * cursorController)
 {
@@ -29,20 +31,9 @@ void GameTimer::tick()
 {
     while(true)
     {
-        drawTime(getSeconds());
         Sleep(1000);
         setSeconds(getSeconds()+1);
     }
 }
 
-void GameTimer::drawTime(int secs)
-{
-    while(cursorController_->isFree_==false);
-    cursorController_->isFree_=false;
-    cursorController_->drawAtPlace(3, 2, "Time spent:    mm:  ss");
-    cursorController_->drawAtPlace(16, 2, (secs/60)/10);
-    cursorController_->drawAtPlace(17, 2, (secs/60)%10);
-    cursorController_->drawAtPlace(21, 2, (secs%60)/10);
-    cursorController_->drawAtPlace(22, 2, (secs%60)%10);
-    cursorController_->isFree_=true;
-}
+int GameTimer::seconds_=0;
